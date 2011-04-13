@@ -38,7 +38,7 @@ get "/" do
 end
 
 get "/tasks" do
-  $tasks.to_json
+  $tasks.compact.to_json
 end
 
 post "/tasks" do
@@ -63,7 +63,7 @@ put "/tasks/:id" do
 end
 
 delete "/tasks/:id" do
-  puts "Deleting #{params[:id]}"
-  $tasks.delete get_task_or_404(params[:id])
+  task = get_task_or_404(params[:id])
+  $tasks[$tasks.index(task)] = nil
   ""
 end
