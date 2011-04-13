@@ -5,13 +5,13 @@
 		<link rel="stylesheet" href="/css/global.css" />
 	</head>
 	<body>
-		<form id="task-form" action="/tasks/" method="POST">
+		<form id="task-form" action="/tasks" method="POST">
 			<label for="field-comment">Comment</label>
 			<textarea id="field-comment" name="comment" placeholder="Enter a todo here&hellip;"></textarea>
 			<button type="submit">Create</button>
 		</form>
-		<ul class="task-list"></ul>
-		<script>function bootstrap() { return <%= $tasks.to_json %>; }</script>
+		<ul id="task-list"></ul>
+		<script>function bootstrap() { return <%= $tasks.compact.to_json %>; }</script>
 		<script src="/javascript/zepto.js"></script>
 		<script src="/javascript/underscore.js"></script>
 		<script src="/javascript/backbone.js"></script>
