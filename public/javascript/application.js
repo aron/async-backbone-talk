@@ -1,5 +1,5 @@
 /*jshint immed:false, onevar: false */
-(function (Backbone, _, $, document, window, undefined) {
+(function (Backbone, _, $, document, window, undef) {
 
   var Todo = {};
 
