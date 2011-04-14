@@ -79,10 +79,12 @@
           
           // `model.escape` prevents XSS attacks by escaping all HTML content
           comment = this.make('span', {}, task.escape('comment')),
-          button  = this.make('button', {'class': 'delete'}, 'Delete');
+          remove  = this.make('button', {'class': 'delete'}, 'Delete'),
+          done  = this.make('button', {}, 'Done');
 
       item.appendChild(comment);
-      item.appendChild(button);
+      item.appendChild(remove);
+      item.appendChild(done);
       this.el.appendChild(item); // `view.el` is the view's root DOM node
 
       return this;
