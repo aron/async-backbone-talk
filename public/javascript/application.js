@@ -1,3 +1,6 @@
+// jsHint settings
+/*jshint immed:false, onevar: false */
+
 (function (Backbone, _, $, document, window, undef) {
 
   // Create our "Todo" namespace
@@ -11,16 +14,25 @@
     constructor: function Task() {
       // We've named the function "Task" purely for debugging: in the WebKit
       // console, model instances will be labelled "Task"
-    
+
       // First apply the logic from the default constructor
       Backbone.Model.prototype.constructor.apply(this, arguments);
-      
+
       // Add a collection of tasks to each model instance
-      if (!this.collection){
+      if (!this.collection) {
         this.collection = Todo.tasks;
       }
+
+      this.defaults = {
+        comment: '',
+        state: Todo.Task.NEW
+      };
     }
 
+  },
+  {
+    NEW:  'new',
+    DONE: 'done'
   });
 
   // "TASKCOLLECTION": a collection of Task models
@@ -37,6 +49,10 @@
     // WebKit console for instances of the collections
     constructor: function TaskCollection() {
       Backbone.Collection.prototype.constructor.apply(this, arguments);
+    },
+
+    comparator: function (task) {
+      return task.get('state') === Todo.Task.DONE ? 0 : 1;
     }
 
   });
@@ -48,6 +64,7 @@
     // object contains the DOM event name ("click"), an optional CSS selector
     // (".delete") and the name of the view method to be triggered ("ondelete")
     events: {
+      'click .done':   'ondone',
       'click .delete': 'ondelete'
     },
 
@@ -59,7 +76,7 @@
     // called at the end of instance construction
     initialize: function () {
       var view = this;
-      
+
       // Bind functions to events triggered in the collection, so that the view
       // updates whenever the models/collections are changed.
       this.collection.bind('add', function (task, collection) {
@@ -76,17 +93,26 @@
           // `view.make` is basically document.createElement, followed by an
           // optional hash of element attributes and HTML content
           item    = this.make('li', {'data-id': task.cid}),
-          
+
           // `model.escape` prevents XSS attacks by escaping all HTML content
           comment = this.make('span', {}, task.escape('comment')),
           remove  = this.make('button', {'class': 'delete'}, 'Delete'),
-          done  = this.make('button', {}, 'Done');
+          done  = this.make('button', {'class': 'done'}, 'Done');
 
       item.appendChild(comment);
       item.appendChild(remove);
-      item.appendChild(done);
-      this.el.appendChild(item); // `view.el` is the view's root DOM node
 
+      if (task.get('state') === Todo.Task.DONE) {
+        item.className = 'state-done';
+      } else {
+        item.appendChild(done);
+      }
+
+      if (this.el.firstChild) {
+        this.el.insertBefore(item, this.el.firstChild); // `view.el` is the view's root DOM node
+      } else {
+        this.el.appendChild(item);
+      }
       return this;
     },
 
@@ -99,10 +125,23 @@
 
     // `render()` is a standard method to create the view's DOM from its models
     render: function () {
+      this.el.innerHTML = '';
       this.collection.each(function (task) {
         this.add(task);
       }, this);
       return this.el;
+    },
+
+    ondone: function (event) {
+      var parent = event.target.parentNode,
+          task = this.collection.getByCid(parent.getAttribute('data-id'));
+
+      if (task) {
+        // `model.save` causes a PUT request to the server
+        task.save({state: Todo.Task.DONE});
+        this.render();
+      }
+      event.preventDefault();
     },
 
     // Our method to delete Task models, triggered by a button click.
@@ -133,20 +172,22 @@
 
     onsubmit: function (event) {
       var task = new Todo.Task({}),
-          textarea = this.$('textarea');
+          input = this.$('input');
 
       // `model.save()` causes a POST request to the server for new models, or a
       // PUT request for existing models. We pass in the data to save as a hash
       // of key-value pairs.
       task.save({
-        comment: textarea.val()
+        comment: input.val()
       });
-      textarea.val('');
+      input.val('');
 
       // Broadcast an event on the TaskForm view whenever a task is created
       this.trigger('create', task, this);
 
-      event && event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
     }
   });
 
@@ -154,7 +195,7 @@
 
 
   // APP INITIALISATION / BASIC CONTROLOGIC
-  
+
   // See the index.erb file for `window.bootstrap`. All it does is return JSON
   // to describe previously saved Task models. We use that data to create a new
   // Task collection.
@@ -168,7 +209,7 @@
 
   // Render the view
   list.render();
-  
+
   // Listen for `delete` events on the list view => remove task from the
   // Task collection
   list.bind('delete', function (task) {
@@ -179,7 +220,7 @@
   var form = new Todo.TaskForm({
     el: document.getElementById('task-form')
   });
-  
+
   // Listen for `create` events on the form => add task to the Task collection
   form.bind('create', function (task) {
     Todo.tasks.add(task);
@@ -189,6 +230,3 @@
   window.Todo = Todo;
 
 }(this.Backbone, this._, this.Zepto, this.document, this)); // pass in arguments to the main closure
-
-// jsHint settings
-/*jshint immed:false, onevar: false */
