@@ -1,5 +1,5 @@
-Backbone Tutorial Application, for Async Brighton:  
-http://asyncjs.com/backbone/
+Backbone Tutorial Application, for [Async Brighton](http://asyncjs.com):  
+[http://asyncjs.com/backbone/](http://asyncjs.com/backbone/)
 
 There's a Sinatra app for persistence. You'll need the Sinatra and json gems to get up and running:
 
