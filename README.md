@@ -8,4 +8,4 @@ There's a Sinatra app for persistence. You'll need the Sinatra and json gems to 
     $ cd ./PROJECT_DIR
     $ ruby -rubygems application.rb
 
-Then just navigate to http://localhost:4567/ and you're away :)
+Then just navigate to [http://localhost:4567/](http://localhost:4567/) and you're away :)
