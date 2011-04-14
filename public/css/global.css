@@ -1,3 +1,117 @@
-body {
-	margin: 0;
+/* @override http://localhost:4567/css/global.css */
+
+html {
+	font: 62.5%/1 "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
 }
+
+body {
+	margin: 40px auto;
+	width: 700px;
+}
+
+#task-form label {
+	display: none;
+}
+
+#task-form {
+	overflow: hidden;
+}
+
+#task-form textarea {
+	font: 62.5%/1 "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	font-size: 32px;
+	height: 78px;
+	width: 580px;
+	line-height: 60px;
+	display: block;
+	color: #585757;
+	float: left;
+	background-color: #f5f5f5;
+	padding: 8px 15px;
+	border: 1px solid #e0dfdf;
+	-webkit-box-sizing: border-box;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow:
+		inset 0 0 38px rgba(0, 0, 0, 0.03),
+		inset 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+button {
+	font-size: 4em;
+	display: block;
+	float: right;
+	font-size: 28px;
+	color: #5c5c5c;
+	padding: 20px 0;
+	text-align: center;
+	width: 110px;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+	text-transform: uppercase;
+	font-weight: bold;
+	font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
+	border: 1px solid #a4a4a5;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-ms-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	-webkit-box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.17),
+		inset 0 0 5px rgba(255, 255, 255, 0.25);
+	background-image: -webkit-gradient(
+  		linear, left top, left bottom,
+  		from(#e4e4e4),
+  		to(#c7c6c6)
+	);
+}
+
+button.add {
+	color: #023e7c;
+	border-color: #3277de;
+	background-image: -webkit-gradient(
+  		linear, left top, left bottom,
+  		from(#007eff),
+  		to(#006ede)
+	);
+}
+
+button.delete {
+	color: #7d2116;
+	border-color: #ae0606;
+	-webkit-box-shadow:
+		inset 0 2px 0 rgba(255, 255, 255, 0.17),
+		inset 0 0 5px rgba(255, 255, 255, 0.25);
+	background-image: -webkit-gradient(
+  		linear, left top, left bottom,
+  		from(#fb3913),
+  		to(#ce1502)
+	);
+}
+
+#task-list {
+	margin-top: 40px;
+	padding: 0;
+	border-top: 1px dashed #dcdcdc;
+}
+
+#task-list li {
+	color: #585757;
+	font-size: 32px;
+	list-style-type: none;
+	overflow: hidden;
+	line-height: 50px;
+	padding: 5px 0;
+	border-bottom: 1px dashed #dcdcdc;
+}
+
+#task-list li button {
+	font-size: 20px;
+	padding: 10px 0;
+	list-style-type: none;
+	margin-left: 10px;
+}
+
